@@ -1,7 +1,12 @@
 import axios from "axios";
 
+const baseURL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000/api"
+    : "https://note-board-4slp.onrender.com/api";
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL,
 });
 
 api.interceptors.request.use(
@@ -11,7 +16,7 @@ api.interceptors.request.use(
       sessionStorage.getItem("token");
 
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
